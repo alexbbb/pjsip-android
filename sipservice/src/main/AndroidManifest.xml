@@ -20,9 +20,7 @@
 
     <queries>
         <!-- Your consumer app package id -->
-        <!-- Should be set in your app build.gradle file -->
-        <!-- e.g. manifestPlaceholders = [consumerAppId:"my.application.id"] -->
-        <package android:name="${consumerAppId}" />
+        <package android:name="${applicationId}" />
     </queries>
 
     <application>

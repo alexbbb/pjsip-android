@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 import static net.gotev.sipservice.ObfuscationHelper.getValue;
 
+import androidx.core.content.ContextCompat;
+
 /**
  * Reference implementation to receive events emitted by the sip service.
  * @author gotev (Aleksandar Gotev)
@@ -145,7 +147,7 @@ public class BroadcastEventReceiver extends BroadcastReceiver implements SipServ
                 BroadcastEventEmitter.BroadcastAction.SILENT_CALL_STATUS));
         intentFilter.addAction(BroadcastEventEmitter.getAction(
                 BroadcastEventEmitter.BroadcastAction.NOTIFY_TLS_VERIFY_STATUS_FAILED));
-        context.registerReceiver(this, intentFilter);
+        ContextCompat.registerReceiver(context, this, intentFilter, ContextCompat.RECEIVER_NOT_EXPORTED);
     }
 
     /**

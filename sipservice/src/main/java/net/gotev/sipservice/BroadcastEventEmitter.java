@@ -81,7 +81,7 @@ public class BroadcastEventEmitter implements SipServiceConstants {
         intent.putExtra(PARAM_ACCOUNT_ID, accountID);
         intent.putExtra(PARAM_REGISTRATION_CODE, registrationStateCode);
 
-        mContext.sendBroadcast(intent);
+        sendBroadcast(intent);
     }
 
     /**
@@ -102,7 +102,7 @@ public class BroadcastEventEmitter implements SipServiceConstants {
         intent.putExtra(PARAM_CALL_STATUS, callStateStatus);
         intent.putExtra(PARAM_CONNECT_TIMESTAMP, connectTimestamp);
 
-        mContext.sendBroadcast(intent);
+        sendBroadcast(intent);
     }
 
     /**
@@ -119,7 +119,7 @@ public class BroadcastEventEmitter implements SipServiceConstants {
             .putExtra(PARAM_CALL_ID, callID)
             .putExtra(PARAM_MEDIA_STATE_KEY, state)
             .putExtra(PARAM_MEDIA_STATE_VALUE, value);
-        mContext.sendBroadcast(intent);
+        sendBroadcast(intent);
     }
 
     public void outgoingCall(String accountID, int callID, String number, boolean isVideo, boolean isVideoConference, boolean isTransfer) {
@@ -140,7 +140,7 @@ public class BroadcastEventEmitter implements SipServiceConstants {
         intent.setAction(getAction(BroadcastAction.STACK_STATUS));
         intent.putExtra(PARAM_STACK_STARTED, started);
 
-        mContext.sendBroadcast(intent);
+        sendBroadcast(intent);
     }
 
     public void codecPriorities(ArrayList<CodecPriority> codecPriorities) {
@@ -149,7 +149,7 @@ public class BroadcastEventEmitter implements SipServiceConstants {
         intent.setAction(getAction(BroadcastAction.CODEC_PRIORITIES));
         intent.putParcelableArrayListExtra(PARAM_CODEC_PRIORITIES_LIST, codecPriorities);
 
-        mContext.sendBroadcast(intent);
+        sendBroadcast(intent);
     }
 
     public void codecPrioritiesSetStatus(boolean success) {
@@ -158,7 +158,7 @@ public class BroadcastEventEmitter implements SipServiceConstants {
         intent.setAction(getAction(BroadcastAction.CODEC_PRIORITIES_SET_STATUS));
         intent.putExtra(PARAM_SUCCESS, success);
 
-        mContext.sendBroadcast(intent);
+        sendBroadcast(intent);
     }
 
     void missedCall(String displayName, String uri) {
@@ -178,7 +178,7 @@ public class BroadcastEventEmitter implements SipServiceConstants {
         intent.putExtra(PARAM_INCOMING_VIDEO_WIDTH, width);
         intent.putExtra(PARAM_INCOMING_VIDEO_HEIGHT, height);
 
-        mContext.sendBroadcast(intent);
+        sendBroadcast(intent);
     }
 
     void callStats(int callID, int duration, String audioCodec, int callStateStatus, RtpStreamStats rx, RtpStreamStats tx) {
@@ -190,14 +190,14 @@ public class BroadcastEventEmitter implements SipServiceConstants {
             .putExtra(PARAM_CALL_STATS_CALL_STATUS, callStateStatus)
             .putExtra(PARAM_CALL_STATS_RX_STREAM, rx)
             .putExtra(PARAM_CALL_STATS_TX_STREAM, tx);
-        mContext.sendBroadcast(intent);
+        sendBroadcast(intent);
     }
 
     void callReconnectionState(CallReconnectionState state) {
         final Intent intent = new Intent();
         intent.setAction(getAction(BroadcastAction.CALL_RECONNECTION_STATE));
         intent.putExtra(PARAM_CALL_RECONNECTION_STATE, state);
-        mContext.sendBroadcast(intent);
+        sendBroadcast(intent);
     }
 
     void silentCallStatus(boolean status, String number) {
@@ -214,6 +214,11 @@ public class BroadcastEventEmitter implements SipServiceConstants {
         sendExplicitBroadcast(intent);
     }
 
+    private void sendBroadcast(Intent intent) {
+        intent.setPackage(mContext.getPackageName());
+        mContext.sendBroadcast(intent);
+    }
+
     private void sendExplicitBroadcast(Intent intent) {
         PackageManager pm=mContext.getPackageManager();
         List<ResolveInfo> matches=pm.queryBroadcastReceivers(intent, 0);
@@ -227,6 +232,6 @@ public class BroadcastEventEmitter implements SipServiceConstants {
             intent.addFlags(Intent.FLAG_RECEIVER_FOREGROUND);
         }
 
-        mContext.sendBroadcast(intent);
+        sendBroadcast(intent);
     }
 }
