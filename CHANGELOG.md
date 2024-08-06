@@ -1,6 +1,16 @@
 Change Log
 ==========
 
+### Version 2.12.0
+
+_2024-08-06_
+* **TargetSdk increased** - Target SDK is now increased to api 34
+* **CompileSdk increased** - Compile SDK is now increased to api 34
+* **Issues fixed**:
+  * #199
+  * #209
+  * #210
+
 ### Version 2.11.1
 
 _2023-11-28_
